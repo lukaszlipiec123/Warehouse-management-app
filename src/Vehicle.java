@@ -1,4 +1,4 @@
-public class Pojazd {
+public class Vehicle {
     private String name;
     private double space;
 }

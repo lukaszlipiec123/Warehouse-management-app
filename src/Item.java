@@ -1,13 +1,13 @@
-public class Przedmiot {
+public class Item {
     private String name;
     private double space;
     boolean isPacked;
 
-    Przedmiot(double spc){
+    Item(double spc){
         this.space = spc;
     }
 
-    Przedmiot( double length, double width, double height ){
+    Item(double length, double width, double height ){
         this.space = length * width * height;
     }
 }

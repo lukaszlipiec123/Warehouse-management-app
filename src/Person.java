@@ -1,17 +1,16 @@
 import java.util.*;
 import java.time.LocalDate;
 
-public class Osoba {
-    List<Pomieszczenie> rentedRooms = new ArrayList<>();
-    private String imie;
-    private String nazwisko;
-    private String adresZamieszkania;
+public class Person {
+    List<Room> rentedRooms = new ArrayList<>();
+    private String name;
+    private String surname;
+    private String address;
     private int PESEL;
-    private LocalDate dataUrodzenia;
-    private LocalDate pierwszeWypożyczenie;
+    private LocalDate birthDate;
+    private LocalDate firstRent;
 
-
-    protected void put(Pomieszczenie room, Object ob) {
+    protected void put(Room room, Object ob) {
         if (rentedRooms.contains(room)) {
             room.put(ob);
         } else {
@@ -19,7 +18,7 @@ public class Osoba {
         }
     }
 
-    protected void pull(Pomieszczenie room, Object ob) {
+    protected void pull(Room room, Object ob) {
         if (rentedRooms.contains(room)) {
             room.pull(ob);
         } else {
@@ -29,11 +28,11 @@ public class Osoba {
 
     protected LocalDate getFirstRentDate() throws NeverRentException{
         try {
-            if (pierwszeWypożyczenie == null)
+            if (firstRent == null)
                 throw new NeverRentException("Ta osoba nie wynajęła jeszcze żadnego pomieszczenia");
         } catch(NeverRentException e){
             System.out.println("Placeholder");
         }
-        return pierwszeWypożyczenie;
+        return firstRent;
     }
 }
