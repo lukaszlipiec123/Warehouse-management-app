@@ -18,9 +18,21 @@ public class Pomieszczenie {
         ID++;
     }
 
-    protected void put(Object ob){
+    /*
+    protected void put throws TooManyThingsException(Object ob){
+        double zajmowanaPrzestrzen;
+        for (Object obj : items){
+            zajmowanaPrzestrzen += obj.space;
+        }
+        try {
+            if ( zajmowanaPrzestrzen + ob.space > space) throw new TooManyThingsException;
+        } catch (TooManyThingsException){
+            System.out.println("Placeholder")
+        }
+        // Klauzula finally?
         items.add(ob);
     }
+    */
 
     protected void pull(Object ob){
         items.remove(ob);
