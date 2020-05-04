@@ -6,21 +6,45 @@ public class Person {
     private String name;
     private String surname;
     private String address;
-    private int PESEL;
+    private long PESEL;
     private LocalDate birthDate;
     private LocalDate firstRent;
 
-    protected void put(Room room, Object ob) {
+    Person(String name, String surname, String address, long PESEL, LocalDate birthDate){
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.PESEL = PESEL;
+        this.birthDate = birthDate;
+    }
+
+    protected void put(Room room, Item it) {
         if (rentedRooms.contains(room)) {
-            room.put(ob);
+            room.put(it);
         } else {
             System.out.println("Nie możesz włożyć przedmiotu do pokoju, którego nie wynajmujesz!");
         }
     }
 
-    protected void pull(Room room, Object ob) {
+    protected void put(Room room, Vehicle vh) {
         if (rentedRooms.contains(room)) {
-            room.pull(ob);
+            room.put(vh);
+        } else {
+            System.out.println("Nie możesz włożyć przedmiotu do pokoju, którego nie wynajmujesz!");
+        }
+    }
+
+    protected void pull(Room room, Item it) {
+        if (rentedRooms.contains(room)) {
+            room.pull(it);
+        } else {
+            System.out.println("Nie możesz wyjąć przedmiotu z pokoju, którego nie wynajmujesz!");
+        }
+    }
+
+    protected void pull(Room room, Vehicle vh) {
+        if (rentedRooms.contains(room)) {
+            room.pull(vh);
         } else {
             System.out.println("Nie możesz wyjąć przedmiotu z pokoju, którego nie wynajmujesz!");
         }
@@ -34,5 +58,9 @@ public class Person {
             System.out.println("Placeholder");
         }
         return firstRent;
+    }
+
+    public String toString(){
+        return name + " " + surname;
     }
 }

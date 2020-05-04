@@ -10,4 +10,6 @@ public class Item {
     Item(double length, double width, double height ){
         this.space = length * width * height;
     }
+
+    protected double getSpace(){ return this.space; }
 }
