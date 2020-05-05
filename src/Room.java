@@ -1,23 +1,28 @@
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class Room {
     private static int ID = 0;
+    private String name;
     private final double space;
-    private double spaceTaken;
+    private double spaceTaken = 0;
     private Person tenant;
     private boolean isReady;
     private List<Item> items = new ArrayList<>();
     private List<Vehicle> vehicles = new ArrayList<>();
 
 
-    Room(double spc){
+    Room(String name, double spc){
+        this.name = name;
         this.space = spc;
         ID++;
     }
 
 
-    Room(double length, double width, double height ){
+    Room(String name, double length, double width, double height ){
+        this.name = name;
         this.space = length * width * height;
         ID++;
     }
@@ -75,6 +80,18 @@ public class Room {
     protected void pull(Vehicle vh){
         items.remove(vh);
         calculateSpaceTaken();
+    }
+
+    protected void setTenant(Person p){
+        this.tenant = p;
+    }
+
+    protected Person getTenant(){
+        return this.tenant;
+    }
+
+    public String toString() {
+        return this.name;
     }
 
 

@@ -22,7 +22,7 @@ public class Main {
                 +          "5 - Włóż nowy pojazd lub przedmiot\n"
                 +          "6 - Wyjmij pojazd lub przedmiot\n"
                 +          "7 - Wyświetl wolne pomieszczenia\n"
-                +          "8 - Wynajmij pomieszczenie (dostępne po wybraniu aktywnego pomieszczenia)\n"
+                +          "8 - Wynajmij pomieszczenie\n"
                 +          "9 - Zapisz aktualny stan magazynu do pliku\n"
                 +          "10 - Zamknij program\n"
         );
@@ -35,10 +35,11 @@ public class Main {
         // Utwórz 10 pomieszczeń
         for(int i = 1; i < 11; i++){
             int val = r.nextInt((5000 - 100) + 1) + 100;
+            String name = "Pomieszczenie " + i;
             if (i % 2 == 0){
-                magazine.addRoom(new Room(val));
+                magazine.addRoom(new Room(name, val));
             } else{
-                magazine.addRoom(new Room(val/20, val/30, val/50));
+                magazine.addRoom(new Room(name, val/20, val/30, val/50));
             }
         }
 
@@ -125,10 +126,35 @@ public class Main {
                         System.out.println("PLACEHOLDER");
                         break;
                     case 7:
-                        System.out.println("PLACEHOLDER");
+                        for(Room room : magazine.rooms){
+                            if(room.getTenant() == null){
+                                System.out.println(room);
+                            }
+                        }
                         break;
                     case 8:
-                        System.out.println("PLACEHOLDER");
+                        if (activePerson != null) {
+                            System.out.println("Podaj numer wolnego pomieszczenia");
+                            try {
+                                int j = input.nextInt();
+                                try {
+                                    if (magazine.rooms.get(j - 1).getTenant() == null) {
+                                        magazine.rooms.get(j - 1).setTenant(activePerson);
+                                        System.out.println("Wynajęto pomieszczenie " + j);
+                                    } else {
+                                        System.out.println("Pokój nie jest wolny! Sprawdź listę dostepnych pomieszczeń za pomocą komeny '7' ");
+                                    }
+                                } catch (IndexOutOfBoundsException e) {
+                                    System.out.println("Pokój nie istnieje! Sprawdź listę dostepnych pomieszczeń za pomocą komeny '7'");
+                                }
+                            } catch (InputMismatchException e) {
+                                System.out.println("Wprowadzono nieprawidłową wartość! Nie wynajęto pomieszczenia");
+                                input.next();
+                            }
+                        } else {
+                            System.out.println("Nie wybrano aktywnej osoby! Nie wynajęto pomieszczenia");
+                        }
+                        System.out.println("Wyjście do głównego ekranu sterowania");
                         break;
                     case 9:
                         System.out.println("PLACEHOLDER");

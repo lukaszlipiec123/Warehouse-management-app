@@ -3,7 +3,7 @@ import java.io.*;
 
 
 public class Magazine {
-    List<Room> rooms = new ArrayList<>();
+    protected List<Room> rooms = new ArrayList<>();
     // Funkcjonalność zapewniająca zapisywanie od pliku w posortowany sposób
     public void saveFile(){
         try {
@@ -19,7 +19,6 @@ public class Magazine {
     protected void addRoom(Room r){
         rooms.add(r);
     }
-
 
 
 }

@@ -60,6 +60,11 @@ public class Person {
         return firstRent;
     }
 
+    protected void rentRoom(Room r){
+        r.setTenant(this);
+        rentedRooms.add(r);
+    }
+
     public String toString(){
         return name + " " + surname;
     }
