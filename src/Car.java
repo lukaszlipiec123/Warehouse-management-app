@@ -1,11 +1,9 @@
 public class Car extends Vehicle {
     private String fuelType;
 
-    Car(double spc){
-        super(spc);
+    Car(String nm, double spc, String fuelType){
+        super(nm, spc);
+        this.fuelType = fuelType;
     }
 
-    Car(double length, double width, double height){
-        super(length, width, height);
-    }
 }

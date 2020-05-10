@@ -2,13 +2,16 @@ public class Vehicle {
     private String name;
     private double space;
 
-    Vehicle(double spc){
+    Vehicle(String nm, double spc){
+        this.name = nm;
         this.space = spc;
     }
 
-    Vehicle(double length, double width, double height ){
-        this.space = length * width * height;
+    protected double getSpace(){ return this.space; }
+
+    public String toString(){
+        return this.name + " (" + space + ")";
     }
 
-    protected double getSpace(){ return this.space; }
+    protected String getName(){ return this.name; }
 }

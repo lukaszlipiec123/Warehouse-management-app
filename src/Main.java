@@ -6,6 +6,9 @@ public class Main {
     private static int control;
     private static Person activePerson;
     private static List<Person> Persons = new ArrayList<>();
+    private static List<Item> Items = new ArrayList<>();
+    private static List<Vehicle> Vehicles = new ArrayList<>();
+    private static Room activeRoom;
 
     private static void setActivePerson(Person prn){
         activePerson = prn;
@@ -43,13 +46,34 @@ public class Main {
             }
         }
 
-        // Utwórz 5 osób
+        // Utwórz osoby
         Persons.add(new Person("Jan", "Kowalski", "Warszawa", 11111111111L, LocalDate.of(1997, Month.MARCH, 1)));
         Persons.add(new Person("Kaczor", "Donald", "Kaczogród", 13333333337L, LocalDate.of(1934, Month.SEPTEMBER, 16)));
         Persons.add(new Person("Komandor", "Shephard", "SSV Normandia", 75635912819L, LocalDate.of(2154, Month.APRIL, 11)));
         Persons.add(new Person("James", "Raynor", "Hyperion", 19876543215L, LocalDate.of(2470, Month.AUGUST, 20)));
         Persons.add(new Person("Geralt", "z Rivii", "Kaer Mohren", 91827364501L, LocalDate.of(1268, Month.JANUARY, 31)));
 
+
+        // Utwórz przedmioty
+        Items.add(new Item("Książka", 1.0));
+        Items.add(new Item("Laptop", 2.25));
+        Items.add(new Item("Fotel", 15.55));
+        Items.add(new Item("Drabina", 14.3));
+        Items.add(new Item("Szafa", 5.3, 2.5, 1.8));
+        Items.add(new Item("Komoda", 4.1, 3.7, 1.5));
+        Items.add(new Item("Biurko", 3.2, 1.5, 1.0));
+        Items.add(new Item("Łóżko", 6.0, 3.0, 0.7));
+
+        // Utwórz pojazdy
+        Vehicles.add(new Car("Volvo s90", 1705.32, "Diesel"));
+        Vehicles.add(new Car("Mazda 3", 1189.53, "Benzyna"));
+        Vehicles.add(new Car("Toyota Corolla", 1330.21, "Hybryda"));
+        Vehicles.add(new Bike("Indiana X-Enduro", 570.42, 6));
+        Vehicles.add(new Bike("Vento TR 2.0", 623.56, 5));
+        Vehicles.add(new Bike("Pulso 1.0", 401.13, 7));
+        Vehicles.add(new Motorcycle("Suzuki RM-Z", 741.42, true));
+        Vehicles.add(new Motorcycle("Honda Varadero", 778.45, true));
+        Vehicles.add(new Motorcycle("Yamaha YZF", 919.10, false));
 
         showInstruction();
 
@@ -109,21 +133,109 @@ public class Main {
                         }
                         break;
                     case 2:
-                        if (activePerson != null) System.out.println("Aktywna osoba to: " + activePerson.toString());
-                        else System.out.println("Aktywna osoba nie jest wybrana!");
+                        if (activePerson != null) {
+                            System.out.println("Aktywna osoba to: " + activePerson.toString());
+                            System.out.println("Lista wynajętych pomieszczeń: ");
+                            for(Room room : magazine.rooms){
+                                if(room.getTenant() == activePerson) System.out.println(room.toString());
+                            }
+                        } else {
+                            System.out.println("Aktywna osoba nie jest wybrana!");
+                        }
                         System.out.println("Wyjście do głównego ekranu sterowania");
                         break;
                     case 3:
-                        System.out.println("PLACEHOLDER");
+                        System.out.println("Wybierz aktywne pomieszczenie, na którym będą wykonywane działania");
+                        if (activePerson != null) {
+                            try {
+                                int roomId = input.nextInt();
+                                boolean changeMade = false;
+                                for(Room rm : magazine.rooms){
+                                    if(Integer.parseInt(rm.getId()) == roomId && rm.getTenant() == activePerson){
+                                        activeRoom = rm;
+                                        System.out.println("Ustawiono " + rm + " jako aktywne");
+                                        changeMade = true;
+                                        break;
+                                    }
+                                }
+                                if(roomId > 0 && roomId < 11 && changeMade == false) System.out.println("Nie wynajmujesz tego pokoju!");
+                                else if(changeMade == false)System.out.println("Podano liczbę spoza zakresu!");
+                            } catch (InputMismatchException e) {
+                                System.out.println("Wprowadzono nieprawidłową wartość! Nie wybrano aktywnej osoby");
+                            }
+                        } else {
+                            System.out.println("Aktywna osoba nie jest wybrana!");
+                        }
+                        System.out.println("Wyjście do głównego ekranu sterowania");
                         break;
                     case 4:
-                        System.out.println("PLACEHOLDER");
+                        if(activeRoom == null) System.out.println("Nie wybrano aktywnego pomieszczenia!");
+                        else {
+                            System.out.println("Przedmioty w " + activeRoom );
+                            activeRoom.listRented();
+                        }
+                        System.out.println("Wyjście do głównego ekranu sterowania");
                         break;
                     case 5:
-                        System.out.println("PLACEHOLDER");
+                        if (activeRoom != null) {
+                            System.out.println("Lista dostępnych przedmiotów i pojazdów (w nawiasach podana jest zajmowana przestrzeń):");
+                            for (Item it : Items) {
+                                System.out.println(it);
+                            }
+                            for (Vehicle vh : Vehicles) {
+                                System.out.println(vh);
+                            }
+                            System.out.println("Wpisz nazwę przedmiotu (bez podanej w nawiasach zajmowanej przestrzeni)");
+                            input.nextLine(); // Przekazanie znaku nowej lini do skanera w celu uniknięcia pominięcia odczytu użytkownika
+                            String item = input.nextLine();
+                            boolean changeMade = false;
+                            for (Item it : Items) {
+                                if (it.getName().equals(item)){
+                                    activeRoom.put(it);
+                                    changeMade = true;
+                                    break;
+                                }
+                            }
+                            if (!changeMade) {
+                                for (Vehicle vh : Vehicles) {
+                                    if (vh.getName().equals(item)) {
+                                        activeRoom.put(vh);
+                                        changeMade = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!changeMade) System.out.println("Nie ma takiego przedmiotu/pojazdu!");
+                        } else {
+                            System.out.println("Nie wybrano aktywnego pomieszczenia!");
+                        }
+                        System.out.println("Wyjście do głównego ekranu sterowania");
                         break;
                     case 6:
-                        System.out.println("PLACEHOLDER");
+                        if(activeRoom != null){
+                            System.out.println("Podaj przedmiot do usunięcia");
+                            input.nextLine(); //Przekazanie znaku nowej lini do skanera w celu uniknięcia pominięcia odczytu użytkownika
+                            String item = input.nextLine();
+                            boolean changeMade = false;
+                            for (Item it : Items) {
+                                if (it.getName().equals(item)){
+                                    changeMade = activeRoom.pull(it);
+                                    break;
+                                }
+                            }
+                            if (!changeMade) {
+                                for (Vehicle vh : Vehicles) {
+                                    if (vh.getName().equals(item)) {
+                                        changeMade = activeRoom.pull(vh);
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!changeMade) System.out.println("Nie ma takiego przedmiotu/pojazdu!");
+                        } else {
+                            System.out.println("Nie wybrano aktywnego pomieszczenia!");
+                        }
+                        System.out.println("Wyjście do głównego ekranu sterowania");
                         break;
                     case 7:
                         for(Room room : magazine.rooms){
@@ -131,6 +243,7 @@ public class Main {
                                 System.out.println(room);
                             }
                         }
+                        System.out.println("Wyjście do głównego ekranu sterowania");
                         break;
                     case 8:
                         if (activePerson != null) {
@@ -157,7 +270,12 @@ public class Main {
                         System.out.println("Wyjście do głównego ekranu sterowania");
                         break;
                     case 9:
-                        System.out.println("PLACEHOLDER");
+                        if(activeRoom != null){
+                            magazine.saveFile(activeRoom);
+                        } else {
+                            System.out.println("Nie wybrano aktywnego pomieszczenia! Nie zapisano stanu pomieszczenia do pliku");
+                        }
+                        System.out.println("Wyjście do głównego ekranu sterowania");
                         break;
                     case 10:
                         break;
@@ -170,6 +288,7 @@ public class Main {
                 input.next();
             }
         }
+        System.out.println(activeRoom);
         System.out.println("Dziękujemy za skorzystanie z programu!");
         input.close();
     }

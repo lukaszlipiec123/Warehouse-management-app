@@ -3,13 +3,21 @@ public class Item {
     private double space;
     boolean isPacked;
 
-    Item(double spc){
+    Item(String nm, double spc){
         this.space = spc;
+        this.name = nm;
     }
 
-    Item(double length, double width, double height ){
+    Item(String nm, double length, double width, double height ){
         this.space = length * width * height;
+        this.name = nm;
+    }
+
+    public String toString(){
+        return this.name + " (" + space + ")";
     }
 
     protected double getSpace(){ return this.space; }
+
+    protected String getName(){ return this.name; }
 }

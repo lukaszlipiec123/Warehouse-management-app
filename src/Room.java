@@ -4,59 +4,60 @@ import java.util.List;
 
 
 public class Room {
-    private static int ID = 0;
+    private static int countID = 1;
+    private int ID;
     private String name;
     private final double space;
     private double spaceTaken = 0;
     private Person tenant;
     private boolean isReady;
-    private List<Item> items = new ArrayList<>();
-    private List<Vehicle> vehicles = new ArrayList<>();
+    protected List<Item> items = new ArrayList<>();
+    protected List<Vehicle> vehicles = new ArrayList<>();
 
 
     Room(String name, double spc){
+        ID = countID;
         this.name = name;
         this.space = spc;
-        ID++;
+        countID++;
     }
 
 
     Room(String name, double length, double width, double height ){
+        ID = countID;
         this.name = name;
         this.space = length * width * height;
-        ID++;
+        countID++;
     }
 
 
     protected void put (Item it) {
-        if (spaceTaken > space) {
-            try {
-                if(spaceTaken > space){
-                    throw new TooManyThingsException("Placeholder");
-                    } else{
-                    items.add(it);
+        try {
+            if(spaceTaken > space){
+                throw new TooManyThingsException();
+                } else {
+                items.add(it);
+                System.out.println("Dodano przedmiot " + it.getName());
+                calculateSpaceTaken();
                 }
-                } catch (TooManyThingsException e){
-                System.out.println("Nie ma miejsca na umieszczenie tego przedmiotu! Przedmiot nie został umieszczony");
-            }
+            } catch (TooManyThingsException e){
+            System.out.println("Nie ma miejsca na umieszczenie tego przedmiotu! Przedmiot nie został umieszczony");
         }
-        calculateSpaceTaken();
     }
 
 
     protected void put (Vehicle vh) {
-        if (spaceTaken > space) {
-            try {
-                if(spaceTaken > space){
-                    throw new TooManyThingsException("Placeholder");
-                } else {
-                    vehicles.add(vh);
-                }
-            } catch (TooManyThingsException e){
-                System.out.println("Nie ma miejsca na umieszczenie tego przedmiotu! Przedmiot nie został umieszczony");
+        try {
+            if(spaceTaken > space){
+                throw new TooManyThingsException();
+            } else {
+                vehicles.add(vh);
+                System.out.println("Dodano pojazd " + vh.getName());
+                calculateSpaceTaken();
             }
+        } catch (TooManyThingsException e){
+            System.out.println("Nie ma miejsca na umieszczenie tego pojazdu! Pojazd nie został umieszczony");
         }
-        calculateSpaceTaken();
     }
 
 
@@ -72,14 +73,18 @@ public class Room {
     }
 
 
-    protected void pull(Item it){
-        items.remove(it);
+    protected boolean pull(Item it){
+        boolean removed = items.remove(it);
+        if(removed){ System.out.println("Usunięto " + it.getName()); }
         calculateSpaceTaken();
+        return removed;
     }
 
-    protected void pull(Vehicle vh){
-        items.remove(vh);
+    protected boolean pull(Vehicle vh){
+        boolean removed = items.remove(vh);
+        if(removed){ System.out.println("Usunięto " + vh.getName()); }
         calculateSpaceTaken();
+        return removed;
     }
 
     protected void setTenant(Person p){
@@ -94,5 +99,17 @@ public class Room {
         return this.name;
     }
 
+    protected String getId(){
+        return Integer.toString(ID);
+    }
+
+    protected void listRented(){
+        for(Item it : items){
+            System.out.println(it);
+        }
+        for(Vehicle vh : vehicles){
+            System.out.println(vh);
+        }
+    }
 
 }

@@ -65,6 +65,12 @@ public class Person {
         rentedRooms.add(r);
     }
 
+    protected void listRentedRooms(){
+        for(Room r: rentedRooms){
+            System.out.println(r.toString());
+        }
+    }
+
     public String toString(){
         return name + " " + surname;
     }
