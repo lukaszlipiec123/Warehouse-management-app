@@ -35,7 +35,7 @@ public class Room {
 
     protected void put (Item it) {
         try {
-            if(spaceTaken > space){
+            if(it.getSpace() > (space - spaceTaken)){
                 throw new TooManyThingsException();
                 } else {
                 items.add(it);
@@ -50,7 +50,7 @@ public class Room {
 
     protected void put (Vehicle vh) {
         try {
-            if(spaceTaken > space){
+            if(vh.getSpace() > (space - spaceTaken)){
                 throw new TooManyThingsException();
             } else {
                 vehicles.add(vh);
