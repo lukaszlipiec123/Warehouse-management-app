@@ -1,5 +1,1 @@
-public class NeverRentException extends Exception{
-    protected NeverRentException(String errorMessage){
-        super(errorMessage);
-    }
-}
+public class NeverRentException extends Exception{}

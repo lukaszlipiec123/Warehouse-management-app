@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 
 
 public class Room {
@@ -8,17 +8,18 @@ public class Room {
     private int ID;
     private String name;
     private final double space;
-    private double spaceTaken = 0;
+    private double spaceTaken = 0.0;
     private Person tenant;
     private boolean isReady;
     protected List<Item> items = new ArrayList<>();
     protected List<Vehicle> vehicles = new ArrayList<>();
-
+    private static Random random = new Random();
 
     Room(String name, double spc){
         ID = countID;
         this.name = name;
         this.space = spc;
+        isReady = random.nextBoolean();
         countID++;
     }
 
@@ -27,6 +28,7 @@ public class Room {
         ID = countID;
         this.name = name;
         this.space = length * width * height;
+        isReady = random.nextBoolean();
         countID++;
     }
 
@@ -112,4 +114,23 @@ public class Room {
         }
     }
 
+    protected double getSpaceTaken(){
+        return spaceTaken;
+    }
+
+    protected String getName(){
+        return name;
+    }
+
+    protected double getSpace(){
+        return space;
+    }
+
+    protected void setActive(){
+        isReady = true;
+    }
+
+    protected boolean getStatus() {
+        return isReady;
+    }
 }

@@ -18,60 +18,78 @@ public class Person {
         this.birthDate = birthDate;
     }
 
-    protected void put(Room room, Item it) {
-        if (rentedRooms.contains(room)) {
-            room.put(it);
-        } else {
-            System.out.println("Nie możesz włożyć przedmiotu do pokoju, którego nie wynajmujesz!");
-        }
-    }
+//    protected void put(Room room, Item it) {
+//        if (rentedRooms.contains(room)) {
+//            room.put(it);
+//        } else {
+//            System.out.println("Nie możesz włożyć przedmiotu do pokoju, którego nie wynajmujesz!");
+//        }
+//    }
+//
+//    protected void put(Room room, Vehicle vh) {
+//        if (rentedRooms.contains(room)) {
+//            room.put(vh);
+//        } else {
+//            System.out.println("Nie możesz włożyć przedmiotu do pokoju, którego nie wynajmujesz!");
+//        }
+//    }
+//
+//    protected void pull(Room room, Item it) {
+//        if (rentedRooms.contains(room)) {
+//            room.pull(it);
+//        } else {
+//            System.out.println("Nie możesz wyjąć przedmiotu z pokoju, którego nie wynajmujesz!");
+//        }
+//    }
+//
+//    protected void pull(Room room, Vehicle vh) {
+//        if (rentedRooms.contains(room)) {
+//            room.pull(vh);
+//        } else {
+//            System.out.println("Nie możesz wyjąć przedmiotu z pokoju, którego nie wynajmujesz!");
+//        }
+//    }
 
-    protected void put(Room room, Vehicle vh) {
-        if (rentedRooms.contains(room)) {
-            room.put(vh);
-        } else {
-            System.out.println("Nie możesz włożyć przedmiotu do pokoju, którego nie wynajmujesz!");
-        }
-    }
+    //    protected void rentRoom(Room r){
+//        r.setTenant(this);
+//        rentedRooms.add(r);
+//    }
 
-    protected void pull(Room room, Item it) {
-        if (rentedRooms.contains(room)) {
-            room.pull(it);
-        } else {
-            System.out.println("Nie możesz wyjąć przedmiotu z pokoju, którego nie wynajmujesz!");
-        }
-    }
-
-    protected void pull(Room room, Vehicle vh) {
-        if (rentedRooms.contains(room)) {
-            room.pull(vh);
-        } else {
-            System.out.println("Nie możesz wyjąć przedmiotu z pokoju, którego nie wynajmujesz!");
-        }
-    }
-
-    protected LocalDate getFirstRentDate() throws NeverRentException{
-        try {
-            if (firstRent == null)
-                throw new NeverRentException("Ta osoba nie wynajęła jeszcze żadnego pomieszczenia");
-        } catch(NeverRentException e){
-            System.out.println("Placeholder");
-        }
-        return firstRent;
-    }
-
-    protected void rentRoom(Room r){
-        r.setTenant(this);
-        rentedRooms.add(r);
-    }
-
-    protected void listRentedRooms(){
-        for(Room r: rentedRooms){
-            System.out.println(r.toString());
-        }
-    }
+    //
+//    protected void listRentedRooms(){
+//        for(Room r: rentedRooms){
+//            System.out.println(r.toString());
+//        }
+//    }
 
     public String toString(){
         return name + " " + surname;
     }
+
+    protected String getAddress() {
+        return address;
+    }
+
+    protected long getPESEL(){
+        return PESEL;
+    }
+
+    protected LocalDate getDateOfBirth(){
+        return birthDate;
+    }
+
+    protected LocalDate getFirstRentDate(){
+        try {
+            if (firstRent == null)
+                throw new NeverRentException();
+        } catch(NeverRentException e){
+            System.out.println("Ta osoba nie wynajęła jeszcze żadnego pomieszczenia");
+        }
+        return firstRent;
+    }
+
+    protected void setFirstRentDate(LocalDate ob){
+        firstRent = ob;
+    }
+
 }

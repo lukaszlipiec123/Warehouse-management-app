@@ -20,7 +20,7 @@ public class Main {
                 +          "0 - Wyświetl tę instrukcję\n"
                 +          "1 - Wybierz, którą osobą jesteś\n"
                 +          "2 - Wypisz swojde dane łącznie z wynajętymi pomieszczeniami\n"
-                +          "3 - Wybierz wynajmowane przez siebie pomieszczenie\n"
+                +          "3 - Wybierz wynajmowane przez siebie pomieszczenie jako aktywne\n"
                 +          "4 - Wyświetl zawartość pomieszczenia\n"
                 +          "5 - Włóż nowy pojazd lub przedmiot\n"
                 +          "6 - Wyjmij pojazd lub przedmiot\n"
@@ -55,14 +55,14 @@ public class Main {
 
 
         // Utwórz przedmioty
-        Items.add(new Item("Książka", 1.0));
-        Items.add(new Item("Laptop", 2.25));
-        Items.add(new Item("Fotel", 15.55));
-        Items.add(new Item("Drabina", 14.3));
-        Items.add(new Item("Szafa", 5.3, 2.5, 1.8));
-        Items.add(new Item("Komoda", 4.1, 3.7, 1.5));
-        Items.add(new Item("Biurko", 3.2, 1.5, 1.0));
-        Items.add(new Item("Łóżko", 6.0, 3.0, 0.7));
+        Items.add(new Item("Książka", 1.0, r.nextBoolean()));
+        Items.add(new Item("Laptop", 2.25, r.nextBoolean()));
+        Items.add(new Item("Fotel", 15.55, r.nextBoolean()));
+        Items.add(new Item("Drabina", 14.3, r.nextBoolean()));
+        Items.add(new Item("Szafa", 5.3, 2.5, 1.8, r.nextBoolean()));
+        Items.add(new Item("Komoda", 4.1, 3.7, 1.5, r.nextBoolean()));
+        Items.add(new Item("Biurko", 3.2, 1.5, 1.0, r.nextBoolean()));
+        Items.add(new Item("Łóżko", 6.0, 3.0, 0.7, r.nextBoolean()));
 
         // Utwórz pojazdy
         Vehicles.add(new Car("Volvo s90", 1705.32, "Diesel"));
@@ -135,6 +135,10 @@ public class Main {
                     case 2:
                         if (activePerson != null) {
                             System.out.println("Aktywna osoba to: " + activePerson.toString());
+                            System.out.println("Adres zamieszkania to: " + activePerson.getAddress());
+                            System.out.println("Numer PESEL to: " + activePerson.getPESEL());
+                            System.out.println("Data urodzenia: " + activePerson.getDateOfBirth());
+                            System.out.println("Data pierwszego wynajęcia pomieszczenia: " + activePerson.getFirstRentDate());
                             System.out.println("Lista wynajętych pomieszczeń: ");
                             for(Room room : magazine.rooms){
                                 if(room.getTenant() == activePerson) System.out.println(room.toString());
@@ -178,14 +182,14 @@ public class Main {
                         break;
                     case 5:
                         if (activeRoom != null) {
-                            System.out.println("Lista dostępnych przedmiotów i pojazdów (w nawiasach podana jest zajmowana przestrzeń):");
+                            System.out.println("Lista dostępnych przedmiotów i pojazdów (w nawiasach podana jest zajmowana przestrzeń wyrażona w metrach sześciennych):");
                             for (Item it : Items) {
                                 System.out.println(it);
                             }
                             for (Vehicle vh : Vehicles) {
                                 System.out.println(vh);
                             }
-                            System.out.println("Wpisz nazwę przedmiotu (bez podanej w nawiasach zajmowanej przestrzeni)");
+                            System.out.println("Wpisz nazwę przedmiotu (bez podanej w nawiasach zajmowanej przestrzeni wyrażonej w metrach sześciennych)");
                             input.nextLine(); // Przekazanie znaku nowej lini do skanera w celu uniknięcia pominięcia odczytu użytkownika
                             String item = input.nextLine();
                             boolean changeMade = false;
@@ -251,11 +255,29 @@ public class Main {
                             try {
                                 int j = input.nextInt();
                                 try {
-                                    if (magazine.rooms.get(j - 1).getTenant() == null) {
+                                    if (magazine.rooms.get(j - 1).getTenant() == null && magazine.rooms.get(j - 1).getStatus()) {
                                         magazine.rooms.get(j - 1).setTenant(activePerson);
+                                        if(activePerson.getFirstRentDate() == null) activePerson.setFirstRentDate(LocalDate.now());
                                         System.out.println("Wynajęto pomieszczenie " + j);
                                     } else {
-                                        System.out.println("Pokój nie jest wolny! Sprawdź listę dostepnych pomieszczeń za pomocą komeny '7' ");
+                                        if (magazine.rooms.get(j - 1).getTenant() == null) {
+                                            System.out.println("Pokój nie jest wolny! Sprawdź listę dostepnych pomieszczeń za pomocą komeny '7' ");
+                                        } else {
+                                            System.out.println("Pokój jest w stanie remontu! Czy chcesz skończyć remont? TAK/NIE\n");
+                                            String answer = input.nextLine();
+                                            if (answer.equals("TAK")){
+                                                magazine.rooms.get(j - 1).setTenant(activePerson);
+                                                magazine.rooms.get(j - 1).setActive();
+                                                if(activePerson.getFirstRentDate() == null) activePerson.setFirstRentDate(LocalDate.now());
+                                                System.out.println("Zakończono remont i wynajęto pomieszczenie " + j);
+                                            }
+                                            else if (answer.equals("NIE")) {
+                                                System.out.println("Nie zakończono remontu i nie wynajęto pomieszczenia");
+                                            }
+                                            else {
+                                                System.out.println("Podano błędną odpowiedź! Nie zakończono remontu i nie wynajęto pomieszczenia");
+                                            }
+                                        }
                                     }
                                 } catch (IndexOutOfBoundsException e) {
                                     System.out.println("Pokój nie istnieje! Sprawdź listę dostepnych pomieszczeń za pomocą komeny '7'");
