@@ -98,7 +98,7 @@ public class Room {
     }
 
     public String toString() {
-        return this.name;
+        return this.name + " (Powierzchnia: " + space + ")";
     }
 
     protected String getId(){

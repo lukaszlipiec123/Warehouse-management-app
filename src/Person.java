@@ -18,50 +18,6 @@ public class Person {
         this.birthDate = birthDate;
     }
 
-//    protected void put(Room room, Item it) {
-//        if (rentedRooms.contains(room)) {
-//            room.put(it);
-//        } else {
-//            System.out.println("Nie możesz włożyć przedmiotu do pokoju, którego nie wynajmujesz!");
-//        }
-//    }
-//
-//    protected void put(Room room, Vehicle vh) {
-//        if (rentedRooms.contains(room)) {
-//            room.put(vh);
-//        } else {
-//            System.out.println("Nie możesz włożyć przedmiotu do pokoju, którego nie wynajmujesz!");
-//        }
-//    }
-//
-//    protected void pull(Room room, Item it) {
-//        if (rentedRooms.contains(room)) {
-//            room.pull(it);
-//        } else {
-//            System.out.println("Nie możesz wyjąć przedmiotu z pokoju, którego nie wynajmujesz!");
-//        }
-//    }
-//
-//    protected void pull(Room room, Vehicle vh) {
-//        if (rentedRooms.contains(room)) {
-//            room.pull(vh);
-//        } else {
-//            System.out.println("Nie możesz wyjąć przedmiotu z pokoju, którego nie wynajmujesz!");
-//        }
-//    }
-
-    //    protected void rentRoom(Room r){
-//        r.setTenant(this);
-//        rentedRooms.add(r);
-//    }
-
-    //
-//    protected void listRentedRooms(){
-//        for(Room r: rentedRooms){
-//            System.out.println(r.toString());
-//        }
-//    }
-
     public String toString(){
         return name + " " + surname;
     }
@@ -78,12 +34,19 @@ public class Person {
         return birthDate;
     }
 
-    protected LocalDate getFirstRentDate(){
+    protected String getFirstRentDateString(){
         try {
-            if (firstRent == null)
-                throw new NeverRentException();
+            if (firstRent == null) throw new NeverRentException();
         } catch(NeverRentException e){
-            System.out.println("Ta osoba nie wynajęła jeszcze żadnego pomieszczenia");
+            return ("Ta osoba nie wynajęła jeszcze żadnego pomieszczenia");
+        }
+        return firstRent.toString();
+    }
+
+    protected LocalDate getFirstRentDateDate(){
+        try {
+            if (firstRent == null) throw new NeverRentException();
+        } catch(NeverRentException e){
         }
         return firstRent;
     }

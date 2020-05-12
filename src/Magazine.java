@@ -23,12 +23,13 @@ public class Magazine{
                     writer.write(entry.getKey() + " (" + entry.getValue() + ")\n");
                 }
                 writer.write("ŁĄCZNIE PRZEDMIOTÓW W MAGAZYNIE: " + things.size() + "\n");
-                writer.write("\n---------------------------------------------------------\n");
-                writer.close();
-                System.out.println("Zapisano stan magazynu do pliku");
+                writer.write("\n\n---------------------------------------------------------\n\n");
                 }
+            System.out.println("Zapisano stan magazynu do pliku");
+            writer.close();
             } catch (IOException e) {
-            System.out.println("Błąd zapisu do pliku!");
+            e.printStackTrace();
+//            System.out.println("Błąd zapisu do pliku!");
         }
     }
 
