@@ -4,6 +4,8 @@ Projekt zrealizowany jako aplikacja do zarządzani magazynami na potrzeby studi�
 Program został wykonany według wymagań projektu w języku Java.
 Założenia projektowe są zrealizowane według następujących implementacji.
 
+Jako dodatkowe źródło dokumentacji należy traktować graficzne opisanie zależności między klasami dołączone do tego repozytorium (Warehouse managment chart.jpg).
+
 Utworzony jest podział na klasy wyszczególnione w założeniach projektu:
 Room, Magazine, Vehicle, Bike, Car, Item, Motorcycle, Person wraz z wyjątkiami NeverRentException i TooManyThingsException. Klasa Main posiada główną metodę uruchomieniową i odpowiada za interakcje klas projektu z użytkownikiem.
 
@@ -27,7 +29,3 @@ Klasa Main odpowiada za główną pętlę zdarzeń programu oraz komunikacje z u
 Komunikacja z programem występuje za pomocą klawiatury i okna konsoli. Warto zwrócić uwagę, że w celu działania na pomieszczeniu trzeba je wcześniej ustawic jako aktywne. Zaleca się korzystanie z programu w następującej kolejności: 
 A) Wybranie aktywnej osoby, 2) Wyświetlenie wolnych pomieszczeń wraz z nazwami 3) Wynajęcie wolnego pomieszczenia 4) Ustawienie jednego z wynajętych pomieszczeń jako aktywnego 5) Reszta działań 
 W razie wątpliwości, należy wybrać opcję "0", powodującą wyświetlenie instrukcji.
-
-
-
-Jako dodatkowe źródło należy traktować graficzne opisanie zależności między klasami dołączone do tego repozytorium.
