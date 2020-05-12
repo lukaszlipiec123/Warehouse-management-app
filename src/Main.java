@@ -292,11 +292,7 @@ public class Main {
                         System.out.println("Wyjście do głównego ekranu sterowania");
                         break;
                     case 9:
-                        if(activeRoom != null){
-                            magazine.saveFile(activeRoom);
-                        } else {
-                            System.out.println("Nie wybrano aktywnego pomieszczenia! Nie zapisano stanu pomieszczenia do pliku");
-                        }
+                        magazine.saveFile();
                         System.out.println("Wyjście do głównego ekranu sterowania");
                         break;
                     case 10:

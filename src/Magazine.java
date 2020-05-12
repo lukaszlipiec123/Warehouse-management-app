@@ -7,25 +7,28 @@ public class Magazine{
     // Funkcjonalność zapewniająca zapisywanie od pliku w posortowany sposób
     HashMap<String, Double> things = new HashMap<String, Double>();
 
-    protected void saveFile(Room activeRoom){
-        sortThings(activeRoom);
+    protected void saveFile(){
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("/home/woocash/IdeaProjects/Java/Warehouse management/src/stan.txt"));
-            writer.write("NAZWA MAGAZYNU: " + activeRoom.getName()
-                    + " WŁAŚCICIEL MAGAZYNU: " + activeRoom.getTenant()
-                    + " ŁĄCZNA PRZESTRZEŃ " + activeRoom.getSpace()
-                    + " PRZESTRZEŃ ZAJĘTA: " + activeRoom.getSpaceTaken()
-                    + " DOSTĘPNA PRZESTRZEŃ " + (activeRoom.getSpace() - activeRoom.getSpaceTaken())
-                    + " PRZEDMIOTY W MAGAZYNIE (WYRAŻONE W METRACH SZEŚCIENNYCH):\n"
-            );
-            for(Map.Entry<String, Double> entry : things.entrySet()){
-                writer.write(entry.getKey() + " (" + entry.getValue() + ")\n");
-            }
-            writer.write("ŁĄCZNIE PRZEDMIOTÓW W MAGAZYNIE: " + things.size() + "\n");
-            writer.close();
-            System.out.println("Zapisano stan magazynu do pliku");
-        } catch (IOException e){
-            System.out.println("Błąd!");
+            for(Room r : rooms) {
+            sortThings(r);
+                writer.write("NAZWA MAGAZYNU: " + r.getName()
+                        + " WŁAŚCICIEL MAGAZYNU: " + r.getTenant()
+                        + " ŁĄCZNA PRZESTRZEŃ " + r.getSpace()
+                        + " PRZESTRZEŃ ZAJĘTA: " + r.getSpaceTaken()
+                        + " DOSTĘPNA PRZESTRZEŃ " + (r.getSpace() - r.getSpaceTaken())
+                        + " PRZEDMIOTY W MAGAZYNIE (WYRAŻONE W METRACH SZEŚCIENNYCH):\n"
+                );
+                for (Map.Entry<String, Double> entry : things.entrySet()) {
+                    writer.write(entry.getKey() + " (" + entry.getValue() + ")\n");
+                }
+                writer.write("ŁĄCZNIE PRZEDMIOTÓW W MAGAZYNIE: " + things.size() + "\n");
+                writer.write("\n---------------------------------------------------------\n");
+                writer.close();
+                System.out.println("Zapisano stan magazynu do pliku");
+                }
+            } catch (IOException e) {
+            System.out.println("Błąd zapisu do pliku!");
         }
     }
 
@@ -36,7 +39,7 @@ public class Magazine{
         for(Vehicle vh : activeRoom.vehicles){
             things.put(vh.getName(), vh.getSpace());
         }
-        things = sortByValue(things);
+        things = sortValues(things);
     }
 
     protected void addRoom(Room r){
@@ -44,11 +47,11 @@ public class Magazine{
     }
 
 
-    private HashMap<String, Double> sortByValue(HashMap<String, Double> things){
+    private HashMap<String, Double> sortValues(HashMap<String, Double> things){
         List<Map.Entry<String, Double> > list = new LinkedList<Map.Entry<String, Double> >(things.entrySet());
         Collections.sort(list, new Comparator<Map.Entry<String, Double> >() {
-            public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
-                int outcome = (o1.getValue()).compareTo(o2.getValue());
+            public int compare(Map.Entry<String, Double> entryOne, Map.Entry<String, Double> entryTwo) {
+                int outcome = (entryOne.getValue()).compareTo(entryTwo.getValue());
                 int value;
                 if (outcome == 1) value = -1;
                 else if (outcome == 0) value = 0;
@@ -56,11 +59,11 @@ public class Magazine{
                 return value;
             }
         });
-        HashMap<String, Double> temp = new LinkedHashMap<String, Double>();
-        for (Map.Entry<String, Double> aa : list) {
-            temp.put(aa.getKey(), aa.getValue());
+        HashMap<String, Double> sorted = new LinkedHashMap<String, Double>();
+        for (Map.Entry<String, Double> entry : list) {
+            sorted.put(entry.getKey(), entry.getValue());
         }
-        return temp;
+        return sorted;
     }
 
 }
