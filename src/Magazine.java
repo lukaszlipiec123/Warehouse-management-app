@@ -5,7 +5,7 @@ import java.io.*;
 public class Magazine{
     protected List<Room> rooms = new ArrayList<>();
     // Funkcjonalność zapewniająca zapisywanie od pliku w posortowany sposób
-    HashMap<String, Double> things = new HashMap<String, Double>();
+    private HashMap<String, Double> things = new HashMap<String, Double>();
 
     protected void saveFile(){
         try {
@@ -28,8 +28,8 @@ public class Magazine{
             System.out.println("Zapisano stan magazynu do pliku");
             writer.close();
             } catch (IOException e) {
-            e.printStackTrace();
-//            System.out.println("Błąd zapisu do pliku!");
+//             e.printStackTrace();
+            System.out.println("Błąd zapisu do pliku!");
         }
     }
 
