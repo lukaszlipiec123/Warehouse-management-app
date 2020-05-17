@@ -5,11 +5,11 @@ import java.io.*;
 public class Magazine{
     protected List<Room> rooms = new ArrayList<>();
     // Funkcjonalność zapewniająca zapisywanie od pliku w posortowany sposób
-    private HashMap<String, Double> things = new HashMap<String, Double>();
+    HashMap<String, Double> things = new HashMap<String, Double>();
 
     protected void saveFile(){
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("/home/woocash/IdeaProjects/Java/Warehouse management/src/stan.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("stan.txt"));
             for(Room r : rooms) {
             sortThings(r);
                 writer.write("NAZWA MAGAZYNU: " + r.getName()
@@ -24,11 +24,12 @@ public class Magazine{
                 }
                 writer.write("ŁĄCZNIE PRZEDMIOTÓW W MAGAZYNIE: " + things.size() + "\n");
                 writer.write("\n\n---------------------------------------------------------\n\n");
+                things.clear();
                 }
             System.out.println("Zapisano stan magazynu do pliku");
             writer.close();
             } catch (IOException e) {
-//             e.printStackTrace();
+//            e.printStackTrace();
             System.out.println("Błąd zapisu do pliku!");
         }
     }
